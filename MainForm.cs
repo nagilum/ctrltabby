@@ -2,7 +2,7 @@
 
 namespace CtrlTabby;
 
-public sealed class MainForm : Form
+internal sealed class MainForm : Form
 {
     /// <summary>
     /// Abort checkbox.
@@ -29,14 +29,33 @@ public sealed class MainForm : Form
     /// True if we're sending CTRL+TAB keys and user hasn't clicked Stop.
     /// </summary>
     private bool _state;
+
+    /// <summary>
+    /// Parsed options.
+    /// </summary>
+    private readonly Options _options;
     
     /// <summary>
     /// Initialize a new instance of a <see cref="MainForm"/> class.
     /// </summary>
-    public MainForm()
+    /// <param name="options">Parsed options.</param>
+    public MainForm(Options options)
     {
+        _options = options;
+        
         this.SetupWindow();
         this.AddControls();
+    }
+
+    /// <summary>
+    /// Forms shown event.
+    /// </summary>
+    private void MainForm_Shown(object? sender, EventArgs e)
+    {
+        if (_options.AutoStart)
+        {
+            this.StartStopButton_Click(null, null!);
+        }
     }
 
     /// <summary>
@@ -124,7 +143,7 @@ public sealed class MainForm : Form
     {
         _abort = new()
         {
-            Checked = true,
+            Checked = _options.StopIfInterrupted,
             Location = new(12, 57),
             Size = new(207, 25),
             Text = "Stop if interrupted by system events."
@@ -146,7 +165,7 @@ public sealed class MainForm : Form
             Maximum = decimal.MaxValue,
             Minimum = 0,
             Size = new(116, 23),
-            Value = 3000
+            Value = _options.Interval
         };
 
         _label = new()
@@ -172,6 +191,11 @@ public sealed class MainForm : Form
         this.FormBorderStyle = FormBorderStyle.FixedDialog;
         this.MaximizeBox = false;
         this.StartPosition = FormStartPosition.CenterScreen;
-        this.Text = "CtrlTabby v0.1-alpha";
+        this.Text = Program.NameAndVersion;
+
+        if (_options.AutoStart)
+        {
+            this.Shown += this.MainForm_Shown;
+        }
     }
 }
