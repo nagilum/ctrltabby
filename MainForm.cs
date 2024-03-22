@@ -52,7 +52,7 @@ public sealed class MainForm : Form
 
         _input!.Enabled = false;
         _abort!.Enabled = false;
-        _button!.Text = @"&Stop";
+        _button!.Text = "&Stop";
         _state = true;
         
         Application.DoEvents();
@@ -90,8 +90,8 @@ public sealed class MainForm : Form
                     if (ex is Win32Exception { Message: "Access is denied." })
                     {
                         MessageBox.Show(
-                            @"Interrupted by system events.",
-                            @"Stopped",
+                            "Interrupted by system events.",
+                            "Stopped",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Exclamation);
                     }
@@ -99,7 +99,7 @@ public sealed class MainForm : Form
                     {
                         MessageBox.Show(
                             ex.Message,
-                            @"Error",
+                            "Error",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
                     }                
@@ -114,7 +114,7 @@ public sealed class MainForm : Form
 
         _input.Enabled = true;
         _abort.Enabled = true;
-        _button.Text = @"&Start";
+        _button.Text = "&Start";
     }
 
     /// <summary>
@@ -127,7 +127,7 @@ public sealed class MainForm : Form
             Checked = true,
             Location = new(12, 57),
             Size = new(207, 25),
-            Text = @"Stop if interrupted by system events."
+            Text = "Stop if interrupted by system events."
         };
         
         _button = new()
@@ -135,7 +135,7 @@ public sealed class MainForm : Form
             Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
             Location = new(12, 86),
             Size = new(259, 39),
-            Text = @"&Start"
+            Text = "&Start"
         };
 
         _button.Click += this.StartStopButton_Click;
@@ -154,7 +154,7 @@ public sealed class MainForm : Form
             AutoSize = true,
             Location = new(12, 9),
             Size = new(207, 15),
-            Text = @"Milliseconds between each CTRL+TAB"
+            Text = "Milliseconds between each CTRL+TAB"
         };
 
         this.Controls.Add(_label);
@@ -172,6 +172,6 @@ public sealed class MainForm : Form
         this.FormBorderStyle = FormBorderStyle.FixedDialog;
         this.MaximizeBox = false;
         this.StartPosition = FormStartPosition.CenterScreen;
-        this.Text = @"CtrlTabby v0.1-alpha";
+        this.Text = "CtrlTabby v0.1-alpha";
     }
 }
